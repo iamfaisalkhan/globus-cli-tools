@@ -1,0 +1,3 @@
+[submodule "transfer-api-client-python"]
+	path = transfer-api-client-python
+	url = https://github.com/globusonline/transfer-api-client-python.git

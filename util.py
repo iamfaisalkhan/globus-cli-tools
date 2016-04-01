@@ -5,7 +5,8 @@ import os
 from globusonline.transfer.api_client.goauth import get_access_token
 
 __all__ = ['get_token',
-            'process_args']
+            'process_args',
+            'sizeof_fmt']
 
 
 def process_args(args=None):
@@ -21,10 +22,16 @@ def process_args(args=None):
     options = type('lamdbaobject', (object,), {})()
     options.username = args[1]
     options.endpoint = args[2]
+
     if len(args) > 3:
-        options.filter = args[3]
+        options.path = args[3]
     else:
-        options.filter = '*.*'
+        options.path = "/"
+
+    if len(args) > 4:
+        options.filter = args[4]
+    else:
+        options.filter = None
         
     return options
 
@@ -43,3 +50,10 @@ def get_token(username, token_file='globus-token.txt'):
 
     return token
 
+
+def sizeof_fmt(num, suffix='B'):
+    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
+        if abs(num) < 1024.0:
+            return "%3.1f%s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.1f%s%s" % (num, 'Yi', suffix)
